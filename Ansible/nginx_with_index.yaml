@@ -1,0 +1,22 @@
+---
+- name: Install nginx and upload index page
+  hosts: all
+  become: yes
+  
+  vars:
+    source_file: путь до файла
+	dest_file: /var/www/html
+  
+  tasks:  
+  - name: Install nginx
+    apt: name=nginx state=installed - в чем разница с latest?
+
+  - name: copy file
+    copy: src={{ source_file }} dest={{ dest_file }} mode=0555 - почему?
+	
+  - name: Start and enable nginx
+    service: name=nginx state=started enabled=yes
+	
+  handlers: Restart nginx
+  - name: Restart ngnix
+    service:
