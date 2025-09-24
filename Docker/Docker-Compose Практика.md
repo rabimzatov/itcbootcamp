@@ -13,15 +13,20 @@
 2. Запустите два контейнера в этой сети:
 
    ```bash
-   docker run -dit --name web --network testnet nginx
-   docker run -dit --name db --network testnet mysql:5.7 -e MYSQL_ROOT_PASSWORD=root
+   docker run -dit --name web --network testnet ubuntu
+   docker run -dit --name db -e MYSQL_ROOT_PASSWORD=root --network testnet mysql
    ```
 3. Зайдите внутрь контейнера `web`:
 
    ```bash
    docker exec -it web bash
    ```
-4. Проверьте доступность `db` по имени:
+
+4. Установите ping, так как по умолчанию в простых образах он не установлен:
+   ```bash
+   apt-get update && apt-get install -y iputils-ping dnsutils
+   ```
+5. Проверьте доступность `db` по имени:
 
    ```bash
    ping db
@@ -44,6 +49,19 @@
 
    * `web`: Nginx, проброс порта 8080 → 80.
    * `db`: MySQL, пароль `root`.
+
+   ```bash
+   version: "3.9"
+   services:
+     web:
+       image: nginx
+       ports:
+         - "8080:80"
+     db:
+       image: mysql
+       environment:
+         MYSQL_ROOT_PASSWORD: root
+   ```
 2. Запустите оба контейнера одной командой:
 
    ```bash
