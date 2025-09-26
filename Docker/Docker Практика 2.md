@@ -14,7 +14,6 @@ print("Hello from my first Docker image!")
 FROM python:3.10-slim
 
 # ??? (нужно выбрать директорию работы)
-WORKDIR /app
 
 # ??? (нужно скопировать app.py внутрь контейнера)
 
